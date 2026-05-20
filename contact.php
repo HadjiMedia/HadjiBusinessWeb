@@ -21,10 +21,10 @@
 // ─── CONFIGURATION ───────────────────────────────────────────────
 $config = [
     // Change these to your actual email addresses:
-    'recipient_email' => 'reservations@aerovista.ph',  // Where contact forms are sent
-    'sender_email'    => 'noreply@aerovista.ph',       // From address (must match your domain)
-    'company_name'    => 'AeroVista Travel Services',
-    'site_url'        => 'https://www.aerovista.ph',
+    'recipient_email' => 'akainahadjiacmad@gmail.com',  // Where contact forms are sent
+    'sender_email'    => 'noreply@maxinagency.ph',       // From address (must match your domain)
+    'company_name'    => 'MaxinAgency Travel Services',
+    'site_url'        => 'https://www.hadjipanel.x10.mx',
 
     // Anti-spam: minimum seconds between submissions per session
     'rate_limit_secs' => 60,
