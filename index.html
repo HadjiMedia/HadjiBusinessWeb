@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AeroVista — Premium Flight & Travel Services</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════ NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <span class="logo-icon">✈</span>
+        <span class="logo-text">Aero<strong>Vista</strong></span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#book" class="nav-link">Book Flight</a>
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#tracker" class="nav-link">Flight Status</a>
+        <a href="#contact" class="nav-link">Contact Us</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-bookings" onclick="openBookingsModal()">
+          <span class="btn-icon">📋</span> My Bookings
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════ HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">✦ Over 500+ Destinations Worldwide</div>
+      <h1 class="hero-headline">
+        Your Next Adventure<br/>
+        <span class="headline-accent">Is Just a Click Away</span>
+      </h1>
+      <p class="hero-sub">Premium flights. Seamless booking. Unmatched comfort at every altitude.</p>
+    </div>
+
+    <!-- Booking Engine -->
+    <div class="booking-engine" id="book">
+      <div class="booking-tabs">
+        <button class="booking-tab active" data-tab="oneway">One-Way</button>
+        <button class="booking-tab" data-tab="roundtrip">Round-Trip</button>
+        <button class="booking-tab" data-tab="multicity">Multi-City</button>
+      </div>
+
+      <!-- One-Way / Round-Trip Form -->
+      <div class="booking-form-wrap" id="tab-oneway">
+        <form class="booking-form" id="flightSearchForm" onsubmit="searchFlights(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>From</label>
+              <div class="input-icon-wrap">
+                <span class="fi">🛫</span>
+                <input type="text" id="fromCity" placeholder="Departure city or airport" autocomplete="off" required />
+                <div class="autocomplete-list" id="fromList"></div>
+              </div>
+            </div>
+            <button type="button" class="swap-btn" onclick="swapCities()" title="Swap cities">⇄</button>
+            <div class="form-group">
+              <label>To</label>
+              <div class="input-icon-wrap">
+                <span class="fi">🛬</span>
+                <input type="text" id="toCity" placeholder="Destination city or airport" autocomplete="off" required />
+                <div class="autocomplete-list" id="toList"></div>
+              </div>
+            </div>
+            <div class="form-group" id="departGroup">
+              <label>Departure</label>
+              <div class="input-icon-wrap">
+                <span class="fi">📅</span>
+                <input type="date" id="departDate" required />
+              </div>
+            </div>
+            <div class="form-group" id="returnGroup" style="display:none;">
+              <label>Return</label>
+              <div class="input-icon-wrap">
+                <span class="fi">📅</span>
+                <input type="date" id="returnDate" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Passengers</label>
+              <div class="input-icon-wrap">
+                <span class="fi">👤</span>
+                <select id="passengers">
+                  <option value="1">1 Adult</option>
+                  <option value="2">2 Adults</option>
+                  <option value="3">3 Adults</option>
+                  <option value="4">4 Adults</option>
+                  <option value="5">5+ Adults</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Cabin Class</label>
+              <div class="input-icon-wrap">
+                <span class="fi">💺</span>
+                <select id="cabinClass">
+                  <option value="economy">Economy</option>
+                  <option value="premium">Premium Economy</option>
+                  <option value="business">Business</option>
+                  <option value="first">First Class</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-action">
+            <button type="submit" class="btn-search">
+              <span>Search Flights</span>
+              <span class="search-icon">→</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Multi-City Form -->
+      <div class="booking-form-wrap" id="tab-multicity" style="display:none;">
+        <div class="multicity-form">
+          <div class="multicity-row" id="multiCityRows">
+            <div class="mc-row">
+              <div class="form-group"><label>From</label><div class="input-icon-wrap"><span class="fi">🛫</span><input type="text" placeholder="City or airport" /></div></div>
+              <div class="form-group"><label>To</label><div class="input-icon-wrap"><span class="fi">🛬</span><input type="text" placeholder="City or airport" /></div></div>
+              <div class="form-group"><label>Date</label><div class="input-icon-wrap"><span class="fi">📅</span><input type="date" /></div></div>
+            </div>
+            <div class="mc-row">
+              <div class="form-group"><label>From</label><div class="input-icon-wrap"><span class="fi">🛫</span><input type="text" placeholder="City or airport" /></div></div>
+              <div class="form-group"><label>To</label><div class="input-icon-wrap"><span class="fi">🛬</span><input type="text" placeholder="City or airport" /></div></div>
+              <div class="form-group"><label>Date</label><div class="input-icon-wrap"><span class="fi">📅</span><input type="date" /></div></div>
+            </div>
+          </div>
+          <div class="mc-actions">
+            <button type="button" class="btn-add-leg" onclick="addLeg()">+ Add Another Flight</button>
+            <button type="button" class="btn-search" onclick="searchFlights(null)"><span>Search Flights</span><span class="search-icon">→</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ SERVICES -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">What We Offer</span>
+        <h2 class="section-title">Travel Services<br/><span class="accent">Built Around You</span></h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-card" data-index="0">
+          <div class="service-glow"></div>
+          <div class="service-icon">✈️</div>
+          <h3>Flight Reservations</h3>
+          <p>Access 500+ airlines across 180+ countries. Flexible booking with best-price guarantee and instant e-ticket delivery.</p>
+          <ul class="service-perks">
+            <li>Worldwide routes network</li>
+            <li>Flexible date changes</li>
+            <li>Instant e-ticket delivery</li>
+          </ul>
+          <a href="#book" class="service-link">Book Now →</a>
+        </div>
+        <div class="service-card" data-index="1">
+          <div class="service-glow"></div>
+          <div class="service-icon">🛡️</div>
+          <h3>Travel Insurance</h3>
+          <p>Comprehensive coverage plans for medical emergencies, trip cancellations, lost baggage, and flight delays.</p>
+          <ul class="service-perks">
+            <li>Medical emergency cover</li>
+            <li>Trip cancellation protection</li>
+            <li>Lost baggage reimbursement</li>
+          </ul>
+          <a href="#contact" class="service-link">Get a Quote →</a>
+        </div>
+        <div class="service-card" data-index="2">
+          <div class="service-glow"></div>
+          <div class="service-icon">💼</div>
+          <h3>Corporate Travel</h3>
+          <p>Tailored business travel solutions with dedicated account managers, expense reporting, and bulk fare discounts.</p>
+          <ul class="service-perks">
+            <li>Dedicated account manager</li>
+            <li>Corporate fare discounts</li>
+            <li>Expense reporting tools</li>
+          </ul>
+          <a href="#contact" class="service-link">Learn More →</a>
+        </div>
+        <div class="service-card" data-index="3">
+          <div class="service-glow"></div>
+          <div class="service-icon">🎧</div>
+          <h3>24/7 Concierge</h3>
+          <p>Round-the-clock customer care via phone, email, and live chat. We're always here when you need us most.</p>
+          <ul class="service-perks">
+            <li>Live chat & phone support</li>
+            <li>Multilingual assistance</li>
+            <li>Airport meet & greet</li>
+          </ul>
+          <a href="#contact" class="service-link">Contact Us →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ FLIGHT TRACKER + DEALS -->
+  <section class="tracker-deals" id="tracker">
+    <div class="container">
+      <div class="tracker-deals-grid">
+
+        <!-- Flight Status Tracker -->
+        <div class="tracker-panel">
+          <div class="section-header left-align">
+            <span class="section-label">Live</span>
+            <h2 class="section-title">Flight<br/><span class="accent">Status Tracker</span></h2>
+          </div>
+          <p class="tracker-desc">Enter your flight number to check real-time departure, arrival, and gate information.</p>
+          <div class="tracker-form">
+            <div class="tracker-input-wrap">
+              <span class="tracker-icon">✈</span>
+              <input type="text" id="flightNumber" placeholder="e.g. AV 204, QR 815, EK 123" maxlength="10" />
+            </div>
+            <button class="btn-track" onclick="trackFlight()">Track Flight</button>
+          </div>
+          <div class="tracker-result" id="trackerResult" style="display:none;"></div>
+        </div>
+
+        <!-- Hot Deals Carousel -->
+        <div class="deals-panel">
+          <div class="section-header left-align">
+            <span class="section-label">🔥 Hot Deals</span>
+            <h2 class="section-title">Trending<br/><span class="accent">Destinations</span></h2>
+          </div>
+          <div class="deals-carousel-wrap">
+            <div class="deals-carousel" id="dealsCarousel">
+              <div class="deal-card">
+                <div class="deal-img deal-img-1"></div>
+                <div class="deal-info">
+                  <div class="deal-route">MNL → DXB</div>
+                  <div class="deal-name">Dubai, UAE</div>
+                  <div class="deal-price"><span class="old-price">₱28,500</span> <span class="new-price">₱19,999</span></div>
+                  <div class="deal-badge">30% OFF</div>
+                </div>
+              </div>
+              <div class="deal-card">
+                <div class="deal-img deal-img-2"></div>
+                <div class="deal-info">
+                  <div class="deal-route">MNL → NRT</div>
+                  <div class="deal-name">Tokyo, Japan</div>
+                  <div class="deal-price"><span class="old-price">₱22,000</span> <span class="new-price">₱15,499</span></div>
+                  <div class="deal-badge">29% OFF</div>
+                </div>
+              </div>
+              <div class="deal-card">
+                <div class="deal-img deal-img-3"></div>
+                <div class="deal-info">
+                  <div class="deal-route">MNL → SIN</div>
+                  <div class="deal-name">Singapore</div>
+                  <div class="deal-price"><span class="old-price">₱12,000</span> <span class="new-price">₱7,499</span></div>
+                  <div class="deal-badge">37% OFF</div>
+                </div>
+              </div>
+              <div class="deal-card">
+                <div class="deal-img deal-img-4"></div>
+                <div class="deal-info">
+                  <div class="deal-route">MNL → LHR</div>
+                  <div class="deal-name">London, UK</div>
+                  <div class="deal-price"><span class="old-price">₱58,000</span> <span class="new-price">₱41,999</span></div>
+                  <div class="deal-badge">27% OFF</div>
+                </div>
+              </div>
+              <div class="deal-card">
+                <div class="deal-img deal-img-5"></div>
+                <div class="deal-info">
+                  <div class="deal-route">MNL → SYD</div>
+                  <div class="deal-name">Sydney, AU</div>
+                  <div class="deal-price"><span class="old-price">₱34,000</span> <span class="new-price">₱24,999</span></div>
+                  <div class="deal-badge">26% OFF</div>
+                </div>
+              </div>
+              <div class="deal-card">
+                <div class="deal-img deal-img-6"></div>
+                <div class="deal-info">
+                  <div class="deal-route">MNL → JFK</div>
+                  <div class="deal-name">New York, USA</div>
+                  <div class="deal-price"><span class="old-price">₱62,000</span> <span class="new-price">₱44,999</span></div>
+                  <div class="deal-badge">27% OFF</div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-controls">
+              <button class="carousel-btn prev" onclick="carouselMove(-1)">‹</button>
+              <div class="carousel-dots" id="carouselDots"></div>
+              <button class="carousel-btn next" onclick="carouselMove(1)">›</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ CONTACT -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="section-header center">
+        <span class="section-label">Get in Touch</span>
+        <h2 class="section-title">We're Here to<br/><span class="accent">Help You Fly</span></h2>
+      </div>
+      <div class="contact-grid">
+
+        <!-- Left: Info -->
+        <div class="contact-info">
+          <div class="contact-info-card">
+            <h3>AeroVista Travel HQ</h3>
+            <div class="info-items">
+              <div class="info-item">
+                <span class="info-icon">📍</span>
+                <div>
+                  <strong>Office Address</strong>
+                  <p>21F Ayala Avenue Tower, Makati City, Metro Manila, Philippines 1200</p>
+                </div>
+              </div>
+              <div class="info-item">
+                <span class="info-icon">📞</span>
+                <div>
+                  <strong>Phone</strong>
+                  <p>+63 (2) 8888-AERO<br/>Toll-free: 1800-100-AERO</p>
+                </div>
+              </div>
+              <div class="info-item">
+                <span class="info-icon">📧</span>
+                <div>
+                  <strong>Email</strong>
+                  <p>reservations@aerovista.ph<br/>support@aerovista.ph</p>
+                </div>
+              </div>
+              <div class="info-item">
+                <span class="info-icon">🕐</span>
+                <div>
+                  <strong>Office Hours</strong>
+                  <p>Mon–Fri: 8:00 AM – 8:00 PM<br/>Sat–Sun: 9:00 AM – 5:00 PM</p>
+                </div>
+              </div>
+            </div>
+            <div class="social-links">
+              <a href="#" class="social-btn" aria-label="Facebook">f</a>
+              <a href="#" class="social-btn" aria-label="Twitter">𝕏</a>
+              <a href="#" class="social-btn" aria-label="Instagram">in</a>
+              <a href="#" class="social-btn" aria-label="LinkedIn">Li</a>
+              <a href="#" class="social-btn" aria-label="YouTube">▶</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Form -->
+        <div class="contact-form-wrap">
+          <form class="contact-form" id="contactForm" action="contact.php" method="POST" onsubmit="submitContact(event)">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="cName">Full Name *</label>
+                <input type="text" id="cName" name="name" placeholder="Juan dela Cruz" required />
+                <span class="field-error" id="errName"></span>
+              </div>
+              <div class="form-group">
+                <label for="cEmail">Email Address *</label>
+                <input type="email" id="cEmail" name="email" placeholder="juan@example.com" required />
+                <span class="field-error" id="errEmail"></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="cRef">Ticket / Booking Reference</label>
+              <input type="text" id="cRef" name="reference" placeholder="e.g. AV-2026-XXXXXX (optional)" />
+            </div>
+            <div class="form-group">
+              <label for="cSubject">Subject *</label>
+              <select id="cSubject" name="subject" required>
+                <option value="">Select a topic...</option>
+                <option value="booking">New Booking Inquiry</option>
+                <option value="change">Flight Change / Reschedule</option>
+                <option value="refund">Refund Request</option>
+                <option value="insurance">Travel Insurance</option>
+                <option value="corporate">Corporate Travel</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="cMessage">Message *</label>
+              <textarea id="cMessage" name="message" rows="5" placeholder="Tell us how we can help you..." required></textarea>
+              <span class="field-error" id="errMsg"></span>
+            </div>
+            <button type="submit" class="btn-submit">
+              <span class="btn-text">Send Message</span>
+              <span class="btn-arrow">→</span>
+            </button>
+          </form>
+          <div class="contact-success" id="contactSuccess" style="display:none;">
+            <div class="success-icon">✓</div>
+            <h3>Message Sent!</h3>
+            <p>Thank you for reaching out. A member of our team will respond within 24 hours.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="#" class="logo logo-footer">
+              <span class="logo-icon">✈</span>
+              <span class="logo-text">Aero<strong>Vista</strong></span>
+            </a>
+            <p>Premium flight & travel services connecting you to the world. Your journey, our passion.</p>
+            <div class="newsletter">
+              <h4>Newsletter</h4>
+              <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                <input type="email" placeholder="Enter your email" id="nlEmail" required />
+                <button type="submit">Subscribe</button>
+              </form>
+              <p class="nl-success" id="nlSuccess" style="display:none;">✓ You're subscribed!</p>
+            </div>
+          </div>
+          <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#book">Book a Flight</a></li>
+              <li><a href="#services">Our Services</a></li>
+              <li><a href="#tracker">Flight Status</a></li>
+              <li><a href="#contact">Contact Us</a></li>
+            </ul>
+          </div>
+          <div class="footer-links">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="#">FAQs</a></li>
+              <li><a href="#">Baggage Policy</a></li>
+              <li><a href="#">Refund Policy</a></li>
+              <li><a href="#">Travel Advisories</a></li>
+              <li><a href="#">Accessibility</a></li>
+            </ul>
+          </div>
+          <div class="footer-links">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Cookie Policy</a></li>
+              <li><a href="#">Data Protection</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="footer-bottom-inner">
+          <p>© 2026 AeroVista Travel Services Inc. All rights reserved.</p>
+          <div class="payment-badges">
+            <span class="pay-badge">VISA</span>
+            <span class="pay-badge">MC</span>
+            <span class="pay-badge">AMEX</span>
+            <span class="pay-badge">PayPal</span>
+            <span class="pay-badge">GCash</span>
+            <span class="pay-badge">Maya</span>
+            <span class="pay-badge">🔒 SSL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════ MODALS -->
+
+  <!-- Flight Results Modal -->
+  <div class="modal-overlay" id="flightModal" onclick="closeModal('flightModal')">
+    <div class="modal flight-modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('flightModal')">✕</button>
+      <div class="modal-header">
+        <h2 id="flightModalTitle">Available Flights</h2>
+        <p id="flightModalSubtitle">Loading results...</p>
+      </div>
+      <div class="modal-body" id="flightResults"></div>
+    </div>
+  </div>
+
+  <!-- My Bookings Modal -->
+  <div class="modal-overlay" id="bookingsModal" onclick="closeModal('bookingsModal')">
+    <div class="modal bookings-modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('bookingsModal')">✕</button>
+      <div class="modal-header">
+        <h2>My Bookings</h2>
+        <p>Track and manage your reservations</p>
+      </div>
+      <div class="modal-body">
+        <div class="bookings-search">
+          <input type="text" placeholder="Enter booking reference or email..." />
+          <button class="btn-track">Retrieve Booking</button>
+        </div>
+        <div class="bookings-empty">
+          <div class="empty-icon">🗂️</div>
+          <p>No active bookings found. <a href="#book">Book a flight</a> to get started.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll to Top -->
+  <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" aria-label="Scroll to top">↑</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
